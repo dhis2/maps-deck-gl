@@ -1,14 +1,8 @@
 import { Evented } from 'mapbox-gl'
 import { Deck, MapView } from '@deck.gl/core'
 import layerTypes from './layers/layerTypes'
-
-const CANVAS_STYLE = {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-}
+import { createCanvas } from './utils/map'
+import './Map.css'
 
 // https://github.com/visgl/deck.gl/blob/master/modules/core/bundle/deckgl.js
 // https://github.com/visgl/deck.gl/blob/master/modules/core/src/lib/deck.js
@@ -16,12 +10,11 @@ export class DeckGL extends Evented {
     constructor(el, options = {}) {
         super()
 
-        const deckCanvas = document.createElement('canvas')
-        el.appendChild(deckCanvas)
-        Object.assign(deckCanvas.style, CANVAS_STYLE)
+        this._layers = []
+        this._container = el
 
-        const mapgl = new Deck({
-            canvas: deckCanvas,
+        this._mapgl = new Deck({
+            canvas: createCanvas(el),
             controller: true,
             views: new MapView(),
             initialViewState: {
@@ -29,13 +22,9 @@ export class DeckGL extends Evented {
                 latitude: 8.584133,
                 zoom: 7,
             },
-            layers: [],
+            layers: this._layers,
             onLoad: this.onLoad,
         })
-
-        this._layers = []
-        this._container = el
-        this._mapgl = mapgl
     }
 
     onLoad = () => {
