@@ -1,6 +1,6 @@
 import { GeoJsonLayer } from '@deck.gl/layers'
 import Layer from './Layer'
-import { colorToRGBArray } from './utils'
+import { colorToRGBArray } from '../utils/colors'
 
 class Choropleth extends Layer {
     constructor(options) {

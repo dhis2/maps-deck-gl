@@ -1023,6 +1023,14 @@
     "@math.gl/polygon" "^3.3.0"
     earcut "^2.0.6"
 
+"@deck.gl/mesh-layers@^8.3.9":
+  version "8.3.9"
+  resolved "https://registry.yarnpkg.com/@deck.gl/mesh-layers/-/mesh-layers-8.3.9.tgz#66ad50c647f6612ef0bf5c8ba048e651bbf0e7ca"
+  integrity sha512-M1ZVmRvXvqQJAh8Sa/8mnvxD0R/jdHHJPdFbVwTO5NvM9KGjb82zMpECMZQnhchUkJX+I1B5q8adPuLHKLn+yg==
+  dependencies:
+    "@luma.gl/experimental" "^8.3.1"
+    "@luma.gl/shadertools" "^8.3.1"
+
 "@dhis2/cli-helpers-engine@^0.10.1":
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/@dhis2/cli-helpers-engine/-/cli-helpers-engine-0.10.1.tgz#bd3f589d862e629fe74f8717efeae448fe55038c"
@@ -1410,6 +1418,15 @@
     math.gl "^3.3.0"
     probe.gl "^3.2.1"
 
+"@luma.gl/experimental@^8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@luma.gl/experimental/-/experimental-8.3.1.tgz#d5dfca48787f25d94d47a717051a6301763a400a"
+  integrity sha512-yN6UYqQ8bi6dCxjsoDIkDP3v7ul6W8K9vseq6wT73Qjn/+4vUDxe/yHgMmRXxik/CJDEWxb3RJhU6ZNf7uSLmA==
+  dependencies:
+    "@luma.gl/constants" "8.3.1"
+    earcut "^2.0.6"
+    math.gl "^3.3.0"
+
 "@luma.gl/gltools@8.3.1":
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/@luma.gl/gltools/-/gltools-8.3.1.tgz#4f01fc7f79f3f12bddb994b5d59d4908dd633e91"
@@ -1419,7 +1436,7 @@
     "@luma.gl/constants" "8.3.1"
     probe.gl "^3.2.1"
 
-"@luma.gl/shadertools@8.3.1":
+"@luma.gl/shadertools@8.3.1", "@luma.gl/shadertools@^8.3.1":
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/@luma.gl/shadertools/-/shadertools-8.3.1.tgz#cd42c4d4f5695e128d5a53d12cc01f7361ddfe93"
   integrity sha512-y9s1R0Uv64QooGKROkNCvPKJd5CJDQ21wxJt5FH/E98F0z4IcJXzKWu1num/XG23eSJyQpIf7qsSqvXDBfm/fA==
