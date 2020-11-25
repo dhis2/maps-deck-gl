@@ -1,7 +1,9 @@
 import TileLayer from './TileLayer'
 import Choropleth from './Choropleth'
+import Events from './Events'
 
 export default {
-    tileLayer: TileLayer, // basemap / external layer
-    choropleth: Choropleth, // thematic layer
+    tileLayer: TileLayer,
+    choropleth: Choropleth,
+    events: Events,
 }

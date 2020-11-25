@@ -10,8 +10,6 @@ class Choropleth extends Layer {
     get() {
         const { opacity, isVisible, data } = this.options
 
-        // console.log('choropleth', this.options)
-
         return new GeoJsonLayer({
             id: this.getId(),
             data,
@@ -27,7 +25,6 @@ class Choropleth extends Layer {
             getLineColor: colorToRGBArray('#333333'),
             getLineWidth: 1,
             onClick: (info, event) => console.log('Clicked:', info, event),
-            // onHover: console.log,
         })
     }
 }

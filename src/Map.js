@@ -1,5 +1,5 @@
-import { Evented } from 'mapbox-gl'
 import { Deck, MapView } from '@deck.gl/core'
+import { Evented } from './utils/events'
 import layerTypes from './layers/layerTypes'
 import { createCanvas } from './utils/map'
 import './Map.css'

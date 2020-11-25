@@ -17,12 +17,12 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@deck.gl/aggregation-layers": "^8.3.9",
     "@deck.gl/core": "^8.3.9",
     "@deck.gl/geo-layers": "^8.3.9",
     "@deck.gl/layers": "^8.3.9",
     "@deck.gl/mesh-layers": "^8.3.9",
     "d3-color": "^2.0.0",
-    "mapbox-gl": "^1.13.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {
