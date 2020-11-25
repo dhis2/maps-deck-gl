@@ -16,6 +16,15 @@ const colorRange = [
     [209, 55, 78],
 ]
 
+const gridColorRange = [
+    [255, 255, 178, 25],
+    [254, 217, 118, 85],
+    [254, 178, 76, 127],
+    [253, 141, 60, 170],
+    [240, 59, 32, 212],
+    [189, 0, 38, 255],
+]
+
 const mapTypes = {
     dots: ScatterplotLayer,
     heatmap: HeatmapLayer,
@@ -45,7 +54,13 @@ const mapTypesProps = {
         radius: 1000,
         upperPercentile: 100,
     },
-    grid: {},
+    grid: {
+        getPosition: d => d.geometry.coordinates,
+        cellSizePixels: 20,
+        colorRange: gridColorRange,
+        gpuAggregation: true,
+        aggregation: 'SUM',
+    },
 }
 
 const extrudedProps = {
@@ -61,7 +76,7 @@ class Events extends Layer {
 
     get() {
         const {
-            mapType = 'heatmap',
+            mapType = 'grid',
             extruded = false,
             opacity,
             isVisible,
@@ -70,7 +85,7 @@ class Events extends Layer {
         const Layer = mapTypes[mapType]
         const props = mapTypesProps[mapType]
 
-        console.log('events', this.options)
+        // console.log('events', this.options)
 
         return new Layer({
             id: this.getId(),
