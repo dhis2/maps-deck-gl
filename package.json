@@ -1,0 +1,67 @@
+{
+  "name": "@dhis2/maps-deck-gl",
+  "version": "0.0.1",
+  "description": "A WebGL rendering engine for DHIS2 maps based on deck.gl",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "build/**"
+  ],
+  "main": "build/cjs/index.js",
+  "module": "build/es/index.js",
+  "repository": "https://github.com/dhis2/maps-deck-gl",
+  "author": "Bjorn Sandvik <bjorn@dhis2.org>",
+  "maintainers": [
+    "Bjorn Sandvik <bjorn@dhis2.org>"
+  ],
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@deck.gl/core": "^8.3.9",
+    "@deck.gl/geo-layers": "^8.3.9",
+    "@deck.gl/layers": "^8.3.9",
+    "d3-color": "^2.0.0",
+    "mapbox-gl": "^1.13.0",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "@dhis2/cli-style": "^2.2.2",
+    "@types/jest": "^26.0.7",
+    "babel-jest": "^25.1.0",
+    "concurrently": "^5.1.0",
+    "husky": "^4.2.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.1.0",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "format": "d2-style js apply --all --no-stage",
+    "clean": "rimraf ./build/*",
+    "build:commonjs": "BABEL_ENV=commonjs babel src --out-dir ./build/cjs --copy-files --verbose",
+    "build:modules": "BABEL_ENV=modules babel src --out-dir ./build/es --copy-files --verbose",
+    "build": "NODE_ENV=production yarn clean && yarn build:commonjs && yarn build:modules",
+    "watch": "NODE_ENV=development yarn clean && concurrently -n watch-cjs,watch-es \"yarn build:commonjs --watch\" \"yarn build:modules --watch\"",
+    "test": "jest src/*"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "d2-style commit check",
+      "pre-commit": "d2-style js apply"
+    }
+  },
+  "jest": {
+    "setupFiles": [
+      "./jest.stub.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
+  }
+}
