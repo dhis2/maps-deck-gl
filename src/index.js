@@ -1,5 +1,6 @@
 import Map from './Map'
 import supportedLayers from './layers/layerTypes'
+import supportedControls from './controls/controlTypes'
 
 /**
  *  Wrapper around deck.gl for DHIS2 Maps
@@ -7,7 +8,7 @@ import supportedLayers from './layers/layerTypes'
 
 export const layerTypes = Object.keys(supportedLayers)
 
-export const controlTypes = []
+export const controlTypes = Object.keys(supportedControls)
 
 export const loadEarthEngineApi = () => {}
 

@@ -10,11 +10,13 @@ export const getBoundsFromLayers = (layers = []) => {
         .filter(l => l)
         .map(bboxPolygon)
 
+    /*
     console.log(
         'getBoundsFromLayers',
         layers.map(l => l.getBBox()),
         layers
     )
+    */
 
     return bbox2bounds(getBBox(bboxFeatures))
 }

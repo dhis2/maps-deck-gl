@@ -20,23 +20,36 @@ class TileLayer extends Layer {
         return new DeckTileLayer({
             id: this.getId(),
             data: tiles,
-            minZoom: 0,
-            maxZoom: 19,
+            // minZoom: 0,
+            // maxZoom: 19,
             tileSize: 256,
             opacity: opacity,
             visible: isVisible,
-            renderSubLayers: props => {
-                const {
-                    bbox: { west, south, east, north },
-                } = props.tile
-
-                return new BitmapLayer(props, {
-                    data: null,
-                    image: props.data,
-                    bounds: [west, south, east, north],
-                })
-            },
+            wrapLongitude: true,
+            renderSubLayers: this.renderSubLayers,
+            onViewportLoad: this.onViewportLoad,
+            onDataLoad: this.onDataLoad,
         })
+    }
+
+    renderSubLayers = props => {
+        const {
+            bbox: { west, south, east, north },
+        } = props.tile
+
+        return new BitmapLayer(props, {
+            data: null,
+            image: props.data,
+            bounds: [west, south, east, north],
+        })
+    }
+
+    onDataLoad = (a, b, c) => {
+        // console.log('onDataLoad', a, b, c)
+    }
+
+    onViewportLoad = images => {
+        // console.log('onViewportLoad', images)
     }
 }
 

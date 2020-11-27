@@ -1,9 +1,11 @@
 import { Deck, MapView } from '@deck.gl/core'
 import debounce from 'lodash.debounce'
+import { fitBounds } from '@math.gl/web-mercator'
 import { Evented } from './utils/events'
 import layerTypes from './layers/layerTypes'
+import controlTypes from './controls/controlTypes'
 import { createCanvas } from './utils/map'
-import { getBoundsFromLayers } from './utils/geometry'
+import { getViewFromBounds, getBoundsFromLayers } from './utils/geometry'
 import './Map.css'
 
 // https://github.com/visgl/deck.gl/blob/master/modules/core/bundle/deckgl.js
@@ -12,28 +14,31 @@ export class Map extends Evented {
     constructor(el, options = {}) {
         super()
 
-        this._layers = []
         this._container = el
-
+        this._layers = []
+        this._controls = {}
         this._view = new MapView()
 
         this._mapgl = new Deck({
             canvas: createCanvas(el),
             controller: true,
             views: [this._view],
-            initialViewState: {
-                longitude: -11.852915,
-                latitude: 8.584133,
-                zoom: 7,
-            },
             layers: this.getLayers(),
             onLoad: this.onLoad,
             onViewStateChange: this.onViewStateChange,
+            onAfterRender: this.onAfterRender,
         })
+
+        if (options.attributionControl !== false) {
+            this.addControl({ type: 'attribution' })
+        }
     }
 
     onLoad = evt => {
-        // console.log('onLoad', evt, this._view, this._mapgl)
+        if (this._bounds) {
+            this.fitBounds(this._bounds)
+            this._bounds = null
+        }
 
         this.fire('ready', this)
     }
@@ -46,12 +51,28 @@ export class Map extends Evented {
         return this._container
     }
 
+    getSize() {
+        const { offsetWidth: width, offsetHeight: height } = this._container
+        return { width, height }
+    }
+
     getLayers() {
         return this._layers
     }
 
+    // https://github.com/visgl/deck.gl/blob/master/modules/core/src/viewports/web-mercator-viewport.js
     fitBounds(bounds) {
-        console.log('view', this._view, this._mapgl, bounds)
+        const { width, height } = this.getSize()
+
+        if (width && height) {
+            // https://github.com/uber-web/math.gl/blob/master/modules/web-mercator/src/fit-bounds.js
+            this._mapgl.setProps({
+                viewState: fitBounds({ width, height, bounds }),
+            })
+        } else {
+            // Map not yet ready
+            this._bounds = bounds
+        }
     }
 
     fitWorld() {
@@ -64,7 +85,7 @@ export class Map extends Evented {
     getLayersBounds() {
         const bounds = getBoundsFromLayers(this.getLayers())
 
-        console.log('Map, getLayersBounds', bounds, this.getLayers())
+        // console.log('Map, getLayersBounds', bounds, this.getLayers())
 
         return bounds
     }
@@ -74,7 +95,6 @@ export class Map extends Evented {
     remove() {}
 
     addLayer(layer) {
-        console.log('addLayer', layer)
         this.getLayers().push(layer)
         layer.addTo(this)
     }
@@ -105,6 +125,24 @@ export class Map extends Evented {
             layers: layers.map(l => l.get()),
         })
     }, 100)
+
+    addControl(config) {
+        const { type } = config
+
+        if (controlTypes[type]) {
+            const control = new controlTypes[type](config)
+            this._controls[type] = control
+            control.addTo(this)
+        }
+    }
+
+    removeControl(control) {
+        // console.log('removeControl', control)
+    }
+
+    onAfterRender(gl) {
+        // console.log('onAfterRender', gl)
+    }
 }
 
 export default Map

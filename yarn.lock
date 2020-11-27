@@ -1527,7 +1527,7 @@
   dependencies:
     "@math.gl/core" "3.3.1"
 
-"@math.gl/web-mercator@^3.3.0":
+"@math.gl/web-mercator@^3.3.0", "@math.gl/web-mercator@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@math.gl/web-mercator/-/web-mercator-3.3.1.tgz#7f9e9af504a6bd6b2057d39e174641ab5e656421"
   integrity sha512-gUOs7jJgTQi4DGLeX4NwiWn8R3Awg3HJxQyJeLpJ065xVREQAaXWnPbk7BcZlm+XLK0CzNLl3zHOQ4gLWGfW7g==
