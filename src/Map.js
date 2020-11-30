@@ -4,7 +4,7 @@ import { fitBounds } from '@math.gl/web-mercator'
 import { Evented } from './utils/events'
 import layerTypes from './layers/layerTypes'
 import controlTypes from './controls/controlTypes'
-import { createCanvas } from './utils/map'
+import { createEl } from './utils/dom'
 import { getViewFromBounds, getBoundsFromLayers } from './utils/geometry'
 import './Map.css'
 
@@ -15,12 +15,13 @@ export class Map extends Evented {
         super()
 
         this._container = el
+        this._controlContainer = createEl('div', 'ctrl', el)
         this._layers = []
         this._controls = {}
         this._view = new MapView()
 
         this._mapgl = new Deck({
-            canvas: createCanvas(el),
+            canvas: createEl('canvas', 'canvas', el),
             controller: true,
             views: [this._view],
             layers: this.getLayers(),
@@ -43,12 +44,14 @@ export class Map extends Evented {
         this.fire('ready', this)
     }
 
-    onViewStateChange = ({ viewState }) => {
-        // console.log('onViewStateChange', viewState)
-    }
+    onViewStateChange = ({ viewState }) => this.setViewState(viewState)
 
     getContainer() {
         return this._container
+    }
+
+    getControlContainer() {
+        return this._controlContainer
     }
 
     getSize() {
@@ -60,15 +63,32 @@ export class Map extends Evented {
         return this._layers
     }
 
+    getViewState = () => this._viewState || {}
+
+    setViewState(viewState) {
+        this._mapgl.setProps({ viewState })
+        this._viewState = viewState
+        this.fire('viewstatechange', { viewState })
+    }
+
+    updateViewState = viewState =>
+        this.setViewState({
+            ...this.getViewState(),
+            ...viewState,
+            transitionDuration: 300,
+        })
+
+    getZoom = () => this.getViewState().zoom || 0
+
+    setZoom = zoom => this.updateViewState({ zoom })
+
     // https://github.com/visgl/deck.gl/blob/master/modules/core/src/viewports/web-mercator-viewport.js
     fitBounds(bounds) {
         const { width, height } = this.getSize()
 
         if (width && height) {
             // https://github.com/uber-web/math.gl/blob/master/modules/web-mercator/src/fit-bounds.js
-            this._mapgl.setProps({
-                viewState: fitBounds({ width, height, bounds }),
-            })
+            this.updateViewState(fitBounds({ width, height, bounds }))
         } else {
             // Map not yet ready
             this._bounds = bounds
@@ -91,7 +111,6 @@ export class Map extends Evented {
     }
 
     resize() {}
-    addControl() {}
     remove() {}
 
     addLayer(layer) {

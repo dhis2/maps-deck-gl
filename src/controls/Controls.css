@@ -1,0 +1,35 @@
+.dhis2-map-ctrl div {
+    z-index: 100;
+}
+
+.dhis2-map-ctrl-top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.dhis2-map-ctrl button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dhis2-map-ctrl-group {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.dhis2-map-ctrl-group button {
+    display: block;
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.dhis2-map-ctrl-group button + button {
+    border-top: 1px solid #ddd;
+}

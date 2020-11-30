@@ -77,7 +77,7 @@ class Events extends Layer {
     get() {
         const {
             mapType = 'hexagon',
-            extruded = false,
+            extruded = true,
             opacity,
             isVisible,
             data,
