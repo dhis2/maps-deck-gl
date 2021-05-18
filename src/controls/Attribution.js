@@ -3,13 +3,8 @@ import { createEl } from '../utils/dom'
 import './Attribution.css'
 
 class Attribution extends Control {
-    constructor(options) {
-        super(options)
-        console.log('Attribution control')
-    }
-
     addTo(map) {
-        this._map = map // TODO: Call super
+        super.addTo(map)
         this.setupUi()
         this.updateAttributions()
     }
@@ -21,13 +16,11 @@ class Attribution extends Control {
     }
 
     updateAttributions() {
-        const attribution = this._map
+        this._el.innerHTML = this._map
             .getLayers()
             .filter(l => l.options.attribution)
             .map(l => l.options.attribution)
             .join(' / ')
-
-        this._el.innerHTML = attribution
     }
 }
 

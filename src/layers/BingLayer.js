@@ -31,7 +31,7 @@ class BingLayer extends Layer {
     }
 
     async get() {
-        const { opacity, isVisible, url } = this.options
+        const { opacity, isVisible } = this.options
 
         const { imageUrl, imageUrlSubdomains, imageryProviders, brandLogoUri } =
             this._metaData || (await this.loadMetaData())
@@ -43,7 +43,7 @@ class BingLayer extends Layer {
             subdomain => imageUrl.replace('{subdomain}', subdomain) //  + '&dpi=d2&device=mobile' // TODO
         )
 
-        // console.log('tiles', tiles)
+        this.options.attribution = this.getAttribution()
 
         this._deckLayer = new DeckTileLayer({
             id: this.getId(),
@@ -63,7 +63,8 @@ class BingLayer extends Layer {
         return this._deckLayer
     }
 
-    getAttribution(viewState) {
+    getAttribution() {
+        const viewState = this._map.getViewState()
         const zoom = viewState.zoom < 1 ? 1 : viewState.zoom
         const viewport = new Viewport(viewState)
         const bounds = viewport.getBounds()
@@ -144,14 +145,16 @@ class BingLayer extends Layer {
     }
 
     onAdd = () => {
-        this._map.on('viewstatechange', this.onViewStateChange)
-
-        console.log('onAdd', this._map)
+        this._map.on('viewstatechange', this.updateAttributions)
     }
 
-    onViewStateChange = ({ viewState }) => {
-        this.options.attribution = this.getAttribution(viewState)
-        this._map.updateAttributions()
+    updateAttributions = () => {
+        const map = this._map
+
+        if (map) {
+            this.options.attribution = this.getAttribution()
+            map.updateAttributions()
+        }
     }
 }
 
