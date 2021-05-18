@@ -13,6 +13,8 @@ class Layer extends Evented {
     addTo(map) {
         this._map = map
         map.renderLayers()
+
+        this.onAdd()
     }
 
     removeFrom(map) {
@@ -58,6 +60,8 @@ class Layer extends Evented {
     setFeatures(data = []) {
         this._features = data
     }
+
+    onAdd() {}
 }
 
 export default Layer

@@ -28,6 +28,9 @@ export class Map extends Evented {
             onLoad: this.onLoad,
             onViewStateChange: this.onViewStateChange,
             onAfterRender: this.onAfterRender,
+            glOptions: {
+                preserveDrawingBuffer: true, // TODO: requred for map download, but reduced performance
+            },
         })
 
         if (options.attributionControl !== false) {
@@ -135,13 +138,13 @@ export class Map extends Evented {
         }
     }
 
-    renderLayers = debounce(() => {
+    renderLayers = debounce(async () => {
         const layers = this.getLayers()
 
         layers.sort((a, b) => a.getIndex() - b.getIndex())
 
         this._mapgl.setProps({
-            layers: layers.map(l => l.get()),
+            layers: await Promise.all(layers.map(l => l.get())),
         })
     }, 100)
 
@@ -161,6 +164,13 @@ export class Map extends Evented {
 
     onAfterRender(gl) {
         // console.log('onAfterRender', gl)
+    }
+
+    // Only called within the API
+    _updateAttributions() {
+        if (this._controls.attribution) {
+            this._controls.attribution._updateAttributions()
+        }
     }
 }
 

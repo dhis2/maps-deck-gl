@@ -1,0 +1,8 @@
+.dhis2-map-ctrl-attrib {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: yellow;
+    height: 20px;
+    width: 200px;
+}

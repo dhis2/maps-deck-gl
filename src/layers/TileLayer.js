@@ -17,6 +17,8 @@ class TileLayer extends Layer {
             tiles = [url]
         }
 
+        console.log('opacity', opacity)
+
         return new DeckTileLayer({
             id: this.getId(),
             data: tiles,
