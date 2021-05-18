@@ -11,6 +11,7 @@ class Attribution extends Control {
     addTo(map) {
         this._map = map // TODO: Call super
         this.setupUi()
+        this.updateAttributions()
     }
 
     setupUi() {
@@ -19,14 +20,14 @@ class Attribution extends Control {
         this._el = createEl('div', 'ctrl-attrib', container)
     }
 
-    _updateAttributions() {
+    updateAttributions() {
         const attribution = this._map
             .getLayers()
             .filter(l => l.options.attribution)
-            .map(l => l.attribution)
-            .join(' ')
+            .map(l => l.options.attribution)
+            .join(' / ')
 
-        this._el.innerText = attribution
+        this._el.innerHTML = attribution
     }
 }
 

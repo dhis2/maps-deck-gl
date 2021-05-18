@@ -145,11 +145,13 @@ class BingLayer extends Layer {
 
     onAdd = () => {
         this._map.on('viewstatechange', this.onViewStateChange)
+
+        console.log('onAdd', this._map)
     }
 
     onViewStateChange = ({ viewState }) => {
         this.options.attribution = this.getAttribution(viewState)
-        this._map._updateAttributions()
+        this._map.updateAttributions()
     }
 }
 

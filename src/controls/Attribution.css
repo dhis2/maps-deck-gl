@@ -2,7 +2,19 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    background: yellow;
     height: 20px;
-    width: 200px;
+    padding: 0 5px;
+    background-color: hsla(0, 0%, 100%, 0.5);
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.dhis2-map-ctrl-attrib a {
+    color: rgba(0, 0, 0, 0.75);
+    text-decoration: none;
+}
+
+.dhis2-map-ctrl-attrib a:hover {
+    text-decoration: underline;
 }

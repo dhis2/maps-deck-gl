@@ -146,6 +146,8 @@ export class Map extends Evented {
         this._mapgl.setProps({
             layers: await Promise.all(layers.map(l => l.get())),
         })
+
+        this.updateAttributions()
     }, 100)
 
     addControl(config) {
@@ -166,10 +168,9 @@ export class Map extends Evented {
         // console.log('onAfterRender', gl)
     }
 
-    // Only called within the API
-    _updateAttributions() {
+    updateAttributions() {
         if (this._controls.attribution) {
-            this._controls.attribution._updateAttributions()
+            this._controls.attribution.updateAttributions()
         }
     }
 }
