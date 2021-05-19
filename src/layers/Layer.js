@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid'
 import { Evented } from '../utils/events'
 import { bbox2bounds, getBBox } from '../utils/geometry'
+import { template } from '../utils/misc'
+import './Layer.css'
 
 class Layer extends Evented {
     constructor(options = {}) {
@@ -42,6 +44,17 @@ class Layer extends Evented {
 
     getFeatures() {
         return this._features || []
+    }
+
+    getTooltip = feature => {
+        const { label, hoverLabel } = this.options
+        const str = label || hoverLabel
+        return str && feature
+            ? {
+                  text: template(str, feature.properties),
+                  className: 'dhis2-map-tooltip',
+              }
+            : null
     }
 
     setIndex(index = 0) {

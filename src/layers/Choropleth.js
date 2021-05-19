@@ -17,6 +17,7 @@ class Choropleth extends Layer {
             visible: isVisible,
             pickable: true,
             autoHighlight: true,
+            highlightColor: this.highlightColor,
             filled: true,
             stroked: true,
             lineWidthUnits: 'pixels',
@@ -24,8 +25,15 @@ class Choropleth extends Layer {
             getFillColor: d => colorToRGBArray(d.properties.color),
             getLineColor: colorToRGBArray('#333333'),
             getLineWidth: 1,
+            getTooltip: this.getTooltip,
             onClick: (info, event) => console.log('Clicked:', info, event),
         })
+    }
+
+    highlightColor = info => {
+        console.log('info', info)
+
+        return [0, 0, 0, 0]
     }
 }
 

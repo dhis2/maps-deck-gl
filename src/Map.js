@@ -25,9 +25,12 @@ export class Map extends Evented {
             controller: true,
             views: [this._view],
             layers: this.getLayers(),
+            getTooltip: this.getTooltip,
+            getCursor: this.getCursor,
             onLoad: this.onLoad,
             onViewStateChange: this.onViewStateChange,
             onAfterRender: this.onAfterRender,
+            onHover: this.onHover,
             glOptions: {
                 preserveDrawingBuffer: true, // TODO: requred for map download, but reduced performance
             },
@@ -67,6 +70,24 @@ export class Map extends Evented {
     }
 
     getViewState = () => this._viewState || {}
+
+    getTooltip = props => {
+        const { layer, object, picked } = props
+
+        // console.log('getTooltip', props)
+
+        return picked && layer.props.getTooltip
+            ? layer.props.getTooltip(object)
+            : null
+    }
+
+    getCursor = ({ isDragging, isHovering }) => {
+        if (isDragging) {
+            this._mapgl.tooltip.setTooltip(null)
+        }
+
+        return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'grab'
+    }
 
     setViewState(viewState) {
         this._mapgl.setProps({ viewState })

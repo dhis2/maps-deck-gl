@@ -1,0 +1,18 @@
+.dhis2-map-bing-logo {
+    position: absolute;
+    bottom: 1px;
+    left: 5px;
+}
+
+.dhis2-map-bing .dhis2-map-ctrl-bottom-left {
+    left: 60px;
+}
+
+/* Bing logo is blocked by CORS policy */
+.dhis2-map-download .dhis2-map-bing-logo {
+    display: none;
+}
+
+.dhis2-map-download .dhis2-map-bing .dhis2-map-ctrl-bottom-left {
+    left: 0;
+}

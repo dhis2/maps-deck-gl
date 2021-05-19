@@ -3,6 +3,7 @@ import { Viewport } from '@deck.gl/core'
 import { TileLayer as DeckTileLayer } from '@deck.gl/geo-layers'
 import { BitmapLayer } from '@deck.gl/layers'
 // import DeckBingLayer from './Layer'
+import './BingLayer.css'
 
 import Layer from './Layer'
 
@@ -60,6 +61,8 @@ class BingLayer extends Layer {
             onDataLoad: this.onDataLoad,
         })
 
+        this.addBingMapsLogo() // TODO: Move
+
         return this._deckLayer
     }
 
@@ -102,6 +105,21 @@ class BingLayer extends Layer {
             image: props.data,
             bounds: [west, south, east, north],
         })
+    }
+
+    addBingMapsLogo() {
+        if (!this._brandLogoImg) {
+            const container = this._map.getContainer()
+            const img = document.createElement('img')
+
+            img.src = this._brandLogoUri
+            img.className = 'dhis2-map-bing-logo'
+
+            container.appendChild(img)
+            container.classList.add('dhis2-map-bing')
+
+            this._brandLogoImg = img
+        }
     }
 
     async loadMetaData() {
